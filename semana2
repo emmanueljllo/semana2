@@ -1,0 +1,78 @@
+# programa_aprobacion_calificaciones.py
+
+print("=== PROGRAMA DE GESTIÓN DE CALIFICACIONES ===\n")
+
+# Paso 1: Solicitar calificación individual y validar
+while True:
+    try:
+        calificacion = float(input("Ingresa una calificación individual (0-100): "))
+        if 0 <= calificacion <= 100:
+            break
+        else:
+            print("La calificación debe estar entre 0 y 100.")
+    except ValueError:
+        print("Entrada inválida. Debe ser un número.")
+
+# Paso 2: Determinar estado de aprobación
+if calificacion >= 60:
+    print("Estado: Aprobado")
+else:
+    print("Estado: Reprobado")
+
+# Paso 3: Solicitar lista de calificaciones
+while True:
+    entrada = input("Ingresa una lista de calificaciones separadas por comas (0-100): ")
+    try:
+        lista = [float(x.strip()) for x in entrada.split(',')]
+        if all(0 <= c <= 100 for c in lista) and len(lista) > 0:
+            break
+        else:
+            print("Todos los valores deben estar entre 0 y 100.")
+    except ValueError:
+        print("Error: Asegúrate de ingresar solo números separados por comas.")
+
+# Paso 4: Calcular el promedio
+suma = 0
+for cal in lista:
+    suma += cal
+
+promedio = suma / len(lista)
+print("Promedio de calificaciones:", round(promedio, 2))
+
+# Paso 5: Contar calificaciones mayores a un valor específico
+while True:
+    try:
+        valor_comparacion = float(input("Ingresa un valor para contar calificaciones mayores: "))
+        break
+    except ValueError:
+        print("Entrada inválida. Debe ser un número.")
+
+contador_mayores = 0
+i = 0
+while i < len(lista):
+    if lista[i] > valor_comparacion:
+        contador_mayores += 1
+    i += 1
+
+print("Cantidad de calificaciones mayores que", valor_comparacion, ":", contador_mayores)
+
+# Paso 6: Verificar y contar calificaciones específicas usando break y continue
+while True:
+    try:
+        valor_buscar = float(input("Ingresa una calificación específica para buscar en la lista: "))
+        break
+    except ValueError:
+        print("Entrada inválida. Debe ser un número.")
+
+contador_valor = 0
+for cal in lista:
+    if cal > 100:  # no debería pasar, pero sirve como ejemplo de break
+        break
+    if cal == valor_buscar:
+        contador_valor += 1
+        continue
+
+if contador_valor > 0:
+    print("La calificación", valor_buscar, "aparece", contador_valor, "veces en la lista.")
+else:
+    print("La calificación", valor_buscar, "no aparece en la lista.")
